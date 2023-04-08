@@ -4,7 +4,7 @@
 <img src="https://img.shields.io/badge/Laravel-F55247?style=for-the-badge&logo=laravel&logoColor=white"><img src="https://img.shields.io/badge/PHP-8993BF?style=for-the-badge&logo=php&logoColor=white"><img src="https://img.shields.io/badge/MySQL-4D9EB1?style=for-the-badge&logo=mysql&logoColor=white">
 > Curso de Laravel |  
 > Sábados 10hs a 13hs (Arg) |  
-> Desde 08/04/2023 hasta 10/06/2023 (10 clases)
+> Desde 08/04/2023 hasta 10/06/2023 (10 clases) |  
 > Código: 62844 |  
 > sensei: Marcos Pinardi |
 
