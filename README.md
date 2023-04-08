@@ -63,8 +63,8 @@ LaraJobs <https://larajobs.com/>
 
 `composer create-project laravel/laravel nombre "version"`
 
-> Ejemplo para instalar laravel 6x  
-`composer create-project laravel/laravel proyecto "6.*"`
+> Ejemplo para instalar laravel 8x  
+`composer create-project laravel/laravel proyecto "8.*"`
 
 > Ejemplo para instalar laravel (versión más actual según tu versión de PHP - no necesita especificar versión)    
 `composer create-project laravel/laravel proyecto`
@@ -104,7 +104,7 @@ LaraJobs <https://larajobs.com/>
 
 > Ejemplo:
 
-    git clone https://github.com/exegeses/laravel-60324.git
+    git clone https://github.com/exegeses/laravel-62844.git
 
 
 > Una vez descargado, vamos a obtener los componetes necesorios para que funcione el framework  
