@@ -28,3 +28,10 @@ Route::get('/saludo', function ()
 {
     return view('bienvenida');
 });
+
+Route::view('/inicio', 'inicio');
+
+Route::get('/datos', function ()
+{
+    return view('datos');
+});
