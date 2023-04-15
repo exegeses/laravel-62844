@@ -61,3 +61,14 @@ Route::post('/proceso', function ()
     $nombre = request('nombre');
     return view('proceso', [ 'nombre'=>$nombre ]);
 });
+
+/* BASES DE DATOS
+    usando RawSQL  + Façade DB
+*/
+Route::get('/listarRegiones', function ()
+{
+    //obtenemos listado de regiones
+    $regiones = DB::select("SELECT idRegion, regNombre
+                                FROM regiones");
+    return view('listarRegiones', [ 'regiones'=>$regiones ]);
+});
