@@ -31,7 +31,20 @@ Route::get('/saludo', function ()
 
 Route::view('/inicio', 'inicio');
 
+
+/* pasaje de datos a una vista */
 Route::get('/datos', function ()
 {
-    return view('datos');
+    $nombre = 'marcos';
+    $marcas = [
+                'Adidas', 'Puma', 'Nike',
+                'UniQlo', 'Assics', 'Reebok'
+            ];
+    return view('datos',
+                [
+                    'nombre'=>$nombre,
+                    'numero'=>11,
+                    'marcas'=>$marcas
+                ]
+    );
 });
