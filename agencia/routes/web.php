@@ -48,3 +48,16 @@ Route::get('/datos', function ()
                 ]
     );
 });
+
+/* formulario */
+Route::view('/form', 'formulario');
+Route::post('/proceso', function ()
+{
+    //capturamos dato enviado por el form
+    //$nombre = $_POST['nombre'];
+    //$nombre = request()->post('nombre');
+    //$nombre = request()->input('nombre');
+    //$nombre = request()->nombre;
+    $nombre = request('nombre');
+    return view('proceso', [ 'nombre'=>$nombre ]);
+});
