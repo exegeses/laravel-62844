@@ -165,3 +165,7 @@ Route::post('/region/update', function ()
             ]);
     }
 });
+Route::get('/region/delete/{id}', function ($id)
+{
+    return view('regionDelete');
+});
