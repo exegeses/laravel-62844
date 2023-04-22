@@ -120,11 +120,48 @@ Route::post('/region/store', function ()
 Route::get('/region/edit/{id}', function ($id)
 {
     //obtenemos datos de la region filtrada por su id
+    /* raw SQL
     $region = DB::select('SELECT idRegion, regNombre
                             FROM regiones
                             WHERE idRegion = :id',
                                     [ $id ]
                         );
+    */
+    $region = DB::table('regiones')
+                    ->where('idRegion', $id)
+                    ->first();
     //retornamos a la vista del formulario para modificar
     return view('regionEdit', [ 'region'=>$region ]);
+});
+Route::post('/region/update', function ()
+{
+    $regNombre = request('regNombre');
+    $idRegion = request('idRegion');
+    try {
+      /* raw SQL
+        DB::update('UPDATE regiones
+                        SET regNombre = :regNombre
+                      WHERE idRegion = :id',
+                        [ $regNombre, $idRegion ]
+                    );
+      */
+        DB::table('regiones')
+                ->where('idRegion', $idRegion)
+                ->update([ 'regNombre'=>$regNombre ]);
+        //redirección con mensaje ok
+        return redirect('/regiones')
+            ->with([
+                'mensaje'=>'Region: '.$regNombre.' modificada correctamente.',
+                'css'=>'success'
+            ]);
+    }
+    catch ( \Throwable $th )
+    {
+        // si hay error, redirección + mensaje error
+        return redirect('/regiones')
+            ->with([
+                'mensaje'=>'No se pudo modificar la región: '.$regNombre,
+                'css'=>'danger'
+            ]);
+    }
 });
