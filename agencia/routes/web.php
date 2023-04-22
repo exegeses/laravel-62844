@@ -72,3 +72,59 @@ Route::get('/listarRegiones', function ()
                                 FROM regiones");
     return view('listarRegiones', [ 'regiones'=>$regiones ]);
 });
+
+/*####### CRUD de regiones ########*/
+Route::get('/regiones', function ()
+{
+    //obtenemos listado de regiones
+    $regiones = DB::select("SELECT idRegion, regNombre
+                                FROM regiones");
+    return view('regiones',
+                    [ 'regiones'=>$regiones ]
+                );
+});
+Route::get('/region/create', function () {
+    return view('regionCreate');
+});
+Route::post('/region/store', function ()
+{
+    //capturamos dato enviado por el form
+    $regNombre = request('regNombre');
+
+    try
+    {
+        //insertamos dato en tabla regiones
+        DB::insert('INSERT INTO regiones
+                        ( regNombre )
+                      VALUE
+                        ( :regNombre )',
+                        [ $regNombre ]
+                    );
+        //redirección con mensaje ok
+        return redirect('/regiones')
+            ->with([
+                'mensaje'=>'Region: '.$regNombre.' agregada correctamente.',
+                'css'=>'success'
+            ]);
+    }
+    catch ( \Throwable $th )
+    {
+        // si hay error, redirección + mensaje error
+        return redirect('/regiones')
+            ->with([
+                'mensaje'=>'No se pudo agregar la región: '.$regNombre,
+                'css'=>'danger'
+            ]);
+    }
+});
+Route::get('/region/edit/{id}', function ($id)
+{
+    //obtenemos datos de la region filtrada por su id
+    $region = DB::select('SELECT idRegion, regNombre
+                            FROM regiones
+                            WHERE idRegion = :id',
+                                    [ $id ]
+                        );
+    //retornamos a la vista del formulario para modificar
+    return view('regionEdit', [ 'region'=>$region ]);
+});
