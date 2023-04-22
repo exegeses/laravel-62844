@@ -133,7 +133,7 @@ Route::get('/region/edit/{id}', function ($id)
     //retornamos a la vista del formulario para modificar
     return view('regionEdit', [ 'region'=>$region ]);
 });
-Route::post('/region/update', function ()
+Route::put('/region/update', function ()
 {
     $regNombre = request('regNombre');
     $idRegion = request('idRegion');
@@ -167,5 +167,45 @@ Route::post('/region/update', function ()
 });
 Route::get('/region/delete/{id}', function ($id)
 {
-    return view('regionDelete');
+    ### chequeo de destinos relacionado a la región
+    $cantidad = DB::table('destinos')
+                    ->where('idRegion', $id)->count();
+    if( $cantidad ){
+        return redirect('/regiones')
+            ->with([
+                'mensaje'=>'No se eliminar la región porque tiene destinos relacionados.',
+                'css'=>'danger'
+            ]);
+    }
+
+    //obtenemos datos de la región a eliminar
+    $region = DB::table('regiones')
+                    ->where('idRegion', $id)
+                    ->first();
+    return view('regionDelete', [ 'region'=>$region ]);
+});
+Route::delete('/region/destroy', function ()
+{
+    $regNombre = request('regNombre');
+    $idRegion = request('idRegion');
+    try {
+        DB::table('regiones')
+                ->where('idRegion', $idRegion)
+                ->delete();
+        //redirección con mensaje ok
+        return redirect('/regiones')
+            ->with([
+                'mensaje'=>'Region: '.$regNombre.' eliminada correctamente.',
+                'css'=>'success'
+            ]);
+    }
+    catch ( \Throwable $th )
+    {
+        // si hay error, redirección + mensaje error
+        return redirect('/regiones')
+            ->with([
+                'mensaje'=>'No se pudo eliminar la región: '.$regNombre,
+                'css'=>'danger'
+            ]);
+    }
 });
