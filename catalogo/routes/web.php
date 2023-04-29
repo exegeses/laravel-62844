@@ -7,3 +7,9 @@ Route::get('/', function () {
 });
 
 Route::view('/inicio', 'inicio');
+
+#########################
+#### CRUD de marcas
+//Route::metodo('petición', [controlador::class, 'metodo']);
+use App\Http\Controllers\MarcaController;
+Route::get('/marcas', [ MarcaController::class, 'index' ]);
