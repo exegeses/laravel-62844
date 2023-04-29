@@ -13,3 +13,4 @@ Route::view('/inicio', 'inicio');
 //Route::metodo('petición', [controlador::class, 'metodo']);
 use App\Http\Controllers\MarcaController;
 Route::get('/marcas', [ MarcaController::class, 'index' ]);
+Route::get('/marca/create', [ MarcaController::class, 'create' ]);

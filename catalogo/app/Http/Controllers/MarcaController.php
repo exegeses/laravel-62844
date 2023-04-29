@@ -16,16 +16,16 @@ class MarcaController extends Controller
     {
         //obtenemos listado de marcas
         //$marcas = Marca::all();
-        $marcas = Marca::paginate(2);
+        $marcas = Marca::paginate(8);
         return view('marcas', [ 'marcas'=>$marcas ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() : View
     {
-        //
+        return view('marcaCreate');
     }
 
     /**
