@@ -209,3 +209,10 @@ Route::delete('/region/destroy', function ()
             ]);
     }
 });
+
+/*####### CRUD de destinos ########*/
+Route::get('/destinos', function ()
+{
+    //obtenemos listado de destinos
+
+});
