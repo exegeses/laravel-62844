@@ -214,5 +214,17 @@ Route::delete('/region/destroy', function ()
 Route::get('/destinos', function ()
 {
     //obtenemos listado de destinos
+    /* $destinos = DB::select('SELECT idDestino, destNombre, regNombre, destPrecio
+                                FROM destinos
+                                JOIN regiones
+                                  ON destinos.idRegion = regiones.idRegion');
+    */
+    $destinos = DB::table('destinos as d')
+                    ->join('regiones as r', 'd.idRegion', '=', 'r.idRegion')
+                    ->get();
+    return view('destinos', [ 'destinos'=>$destinos ]);
+});
+Route::get('/destino/create', function ()
+{
 
 });
