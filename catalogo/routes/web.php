@@ -14,3 +14,8 @@ Route::view('/inicio', 'inicio');
 use App\Http\Controllers\MarcaController;
 Route::get('/marcas', [ MarcaController::class, 'index' ]);
 Route::get('/marca/create', [ MarcaController::class, 'create' ]);
+
+#########################
+use App\Http\Controllers\CategoriaController;
+#### CRUD de categorias
+Route::get('/categorias', [ CategoriaController::class, 'index']);

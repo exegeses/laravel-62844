@@ -2,30 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Marca;
-use Illuminate\Contracts\View\View;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 
-
-class MarcaController extends Controller
+class CategoriaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index() : View
     {
-        //obtenemos listado de marcas
-        //$marcas = Marca::all();
-        $marcas = Marca::paginate(3);
-        return view('marcas', [ 'marcas'=>$marcas ]);
+        $categorias = Categoria::paginate(8);
+        return view('categorias', [ 'categorias'=>$categorias ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() : View
+    public function create()
     {
-        return view('marcaCreate');
+        //
     }
 
     /**
@@ -39,7 +36,7 @@ class MarcaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Categoria $categoria)
     {
         //
     }
@@ -47,7 +44,7 @@ class MarcaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Categoria $categoria)
     {
         //
     }
@@ -55,7 +52,7 @@ class MarcaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Categoria $categoria)
     {
         //
     }
@@ -63,7 +60,7 @@ class MarcaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Categoria $categoria)
     {
         //
     }
