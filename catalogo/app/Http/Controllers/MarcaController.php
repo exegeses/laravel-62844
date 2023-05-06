@@ -86,17 +86,40 @@ class MarcaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        //obtenemos datos de una marca filtrada por su id
+        $Marca = Marca::find($id);
+        return view('marcaEdit', [ 'Marca'=>$Marca ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        //validación
+        $this->validarForm( $request );
+        $mkNombre = $request->mkNombre;
+        try {
+            //obtenemos marca por su id
+            $Marca = Marca::find($request->idMarca);
+            //reasignamos valores de atributos
+            $Marca->mkNombre = $mkNombre;
+            $Marca->save();
+            return redirect('/marcas')
+                ->with([
+                    'mensaje'=>'Marca: '.$mkNombre.' modificada correctamente.',
+                    'css'=>'success'
+                ]);
+        }
+        catch ( \Throwable $th ){
+            return redirect('/marcas')
+                ->with([
+                    'mensaje'=>'No se pudo modificar la marca: '.$mkNombre,
+                    'css'=>'danger'
+                ]);
+        }
     }
 
     /**
