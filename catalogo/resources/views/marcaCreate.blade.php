@@ -11,6 +11,9 @@
                 <input type="text" name="mkNombre"
                        value="{{ old('mkNombre') }}"
                        class="form-control" id="mkNombre">
+                @if ($errors->has('mkNombre'))
+                    <span class="fs-6 text-danger">{{ $errors->first('mkNombre') }}</span>
+                @endif
             </div>
 
             <button class="btn btn-dark my-3 px-4">Agregar marca</button>
