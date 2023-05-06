@@ -96,7 +96,7 @@ class MarcaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request) : RedirectResponse
     {
         //validación
         $this->validarForm( $request );
