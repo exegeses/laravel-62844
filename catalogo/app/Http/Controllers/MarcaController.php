@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Marca;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 
@@ -16,7 +17,7 @@ class MarcaController extends Controller
     {
         //obtenemos listado de marcas
         //$marcas = Marca::all();
-        $marcas = Marca::paginate(3);
+        $marcas = Marca::paginate(8);
         return view('marcas', [ 'marcas'=>$marcas ]);
     }
 
@@ -28,12 +29,50 @@ class MarcaController extends Controller
         return view('marcaCreate');
     }
 
+    private function validarForm( Request $request ) : void
+    {
+        $request->validate(
+                /*
+                    [ 'campo'=>'reglas' ],
+                    [ 'campo.regla1'=>'mensaje1' ]
+                 */
+                [ 'mkNombre'=>'required|unique:marcas,mkNombre|min:2|max:30' ],
+                [
+                    'mkNombre.required'=>'El campo "Nombre de la marca" es obligatorio',
+                    'mkNombre.unique'=>'Ya existe una marca con ese nombre',
+                    'mkNombre.min'=>'El campo "Nombre de la marca" debe tener al menos 2 caractéres',
+                    'mkNombre.max'=>'El campo "Nombre de la marca" debe tener 30 caractéres como máximo'
+                ]
+        );
+    }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : RedirectResponse
     {
-        //
+        //validación
+        $this->validarForm( $request );
+        $mkNombre = $request->mkNombre;
+        try {
+            //instanciamos
+            $Marca = new Marca;
+            //asignamos atributos
+            $Marca->mkNombre = $mkNombre;
+            //almacenamos en tabla marcas
+            $Marca->save();
+            return redirect('/marcas')
+                    ->with([
+                            'mensaje'=>'Marca: '.$mkNombre.' agregada correctamente.',
+                            'css'=>'success'
+                            ]);
+        }
+        catch ( \Throwable $th ){
+            return redirect('/marcas')
+                ->with([
+                    'mensaje'=>'No se pudo agregar la marca: '.$mkNombre,
+                    'css'=>'danger'
+                ]);
+        }
     }
 
     /**
