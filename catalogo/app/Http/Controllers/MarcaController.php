@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marca;
+use App\Models\Producto;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -122,9 +123,23 @@ class MarcaController extends Controller
         }
     }
 
-    public function confirmarBaja()
+    public function confirmarBaja($id)
     {
-        
+        //obtenemos datos de una marca por su ID
+        $Marca = Marca::find($id);
+
+        if( Producto::checkProductoPorMarca($id) == 0 ){
+            //retornamos vista de confirmación
+            return view('marcaDelete', [ 'Marca'=>$Marca ]);
+        }
+
+        return redirect('/marcas')
+            ->with([
+                'mensaje'=>'No se puede eliminar la marca: '.$Marca->mkNombre.' porque tiene productos relacionados',
+                'css'=>'danger'
+            ]);
+
+
     }
     /**
      * Remove the specified resource from storage.
