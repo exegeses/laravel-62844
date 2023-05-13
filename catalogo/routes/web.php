@@ -30,3 +30,4 @@ Route::get('/categorias', [ CategoriaController::class, 'index']);
 use App\Http\Controllers\ProductoController;
 Route::get('/productos', [ ProductoController::class, 'index' ]);
 Route::get('/producto/create', [ ProductoController::class, 'create' ]);
+Route::post('/producto/store', [ ProductoController::class, 'store' ]);
