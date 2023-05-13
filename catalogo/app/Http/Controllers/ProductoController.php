@@ -4,15 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProductoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : View
     {
-        //
+        //obtenemos listado de productos
+        /*
+        $productos = Producto::join('marcas', 'marcas.idMarca', '=','productos.idMarca')
+                                ->join('categorias', 'categorias.idCategoria', '=', 'productos.idCategoria')
+                                ->paginate(8);
+        */
+        $productos = Producto::with(['getMarca','getCategoria'])->paginate(8);
+        return view('productos', [ 'productos'=>$productos ]);
     }
 
     /**

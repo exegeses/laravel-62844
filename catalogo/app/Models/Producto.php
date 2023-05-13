@@ -16,4 +16,22 @@ class Producto extends Model
     {
         return Producto::where('idMarca', $idMarca)->count();
     }
+    /* métodos de relación */
+    public function getMarca()
+    {
+        return $this->belongsTo(
+                Marca::class,
+                'idMarca',
+                'idMarca'
+        );
+    }
+
+    public function getCategoria()
+    {
+        return $this->belongsTo(
+                Categoria::class,
+                'idCategoria',
+                'idCategoria'
+        );
+    }
 }
