@@ -122,6 +122,10 @@ class MarcaController extends Controller
         }
     }
 
+    public function confirmarBaja()
+    {
+        
+    }
     /**
      * Remove the specified resource from storage.
      */
