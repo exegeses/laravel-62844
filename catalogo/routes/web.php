@@ -18,6 +18,7 @@ Route::post('/marca/store', [ MarcaController::class, 'store' ]);
 Route::get('/marca/edit/{id}', [ MarcaController::class, 'edit' ]);
 Route::put('/marca/update', [ MarcaController::class, 'update' ]);
 Route::get('/marca/delete/{id}', [ MarcaController::class, 'confirmarBaja' ]);
+Route::delete('/marca/destroy', [ MarcaController::class, 'destroy' ]);
 
 #########################
 use App\Http\Controllers\CategoriaController;

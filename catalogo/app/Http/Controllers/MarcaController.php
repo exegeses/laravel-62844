@@ -123,7 +123,7 @@ class MarcaController extends Controller
         }
     }
 
-    public function confirmarBaja($id)
+    public function confirmarBaja(string $id) : View | RedirectResponse
     {
         //obtenemos datos de una marca por su ID
         $Marca = Marca::find($id);
@@ -144,8 +144,27 @@ class MarcaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy() : RedirectResponse
     {
-        //
+        $mkNombre = request('mkNombre');
+        $id = request('idMarca');
+        try {
+            /* $Marca = Marca::find($id);
+            $Marca->delete(); */
+            Marca::destroy($id);
+            return redirect('/marcas')
+                ->with([
+                    'mensaje'=>'La marca: '.$mkNombre. ' se elimin´´o correctamente',
+                    'css'=>'success'
+                ]);
+        }
+        catch ( \Throwable $th ){
+            return redirect('/marcas')
+                ->with([
+                    'mensaje'=>'No se pudo eliminar la marca: '.$mkNombre,
+                    'css'=>'danger'
+                ]);
+        }
+
     }
 }
