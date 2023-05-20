@@ -73,8 +73,13 @@ class ProductoController extends Controller
 
     private function subirImagen( Request $request ) : string
     {
-        //si no enviaron una imagen
+        //si no enviaron una imagen en productoCreate
         $prdImagen = 'noDisponible.png';
+
+        //si no enviaron imagen en productoEdit
+        if( $request->has('imgActual') ){
+            $prdImagen = $request->imgActual;
+        }
 
         //si enviaron imagen
         if( $request->file('prdImagen') ){
@@ -108,6 +113,7 @@ class ProductoController extends Controller
             $Producto->idCategoria = $request->idCategoria;
             $Producto->prdDescripcion = $request->prdDescripcion;
             $Producto->prdImagen = $prdImagen;
+            //$Producto->prdActivo = 1;
             $Producto->save();
             return redirect('/productos')
                 ->with(
@@ -140,17 +146,59 @@ class ProductoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Producto $producto)
+    public function edit( $id ) : View
     {
-        //
+        //obtenemos datos de Producto
+        $Producto = Producto::find($id);
+        //obtenemos listados de marcas y de categorias
+        $marcas = Marca::all();
+        $categorias = Categoria::all();
+        return view('productoEdit',
+            [
+                'Producto'=>$Producto,
+                'marcas'=>$marcas,
+                'categorias'=>$categorias
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Producto $producto)
+    public function update(Request $request) : RedirectResponse
     {
-        //
+        $prdNombre = $request->prdNombre;
+        //validación
+        $this->validarForm( $request );
+        //subir imagen *
+        $prdImagen = $this->subirImagen( $request );
+        try {
+            $Producto = Producto::find($request->idProducto);
+            $Producto->prdNombre = $prdNombre;
+            $Producto->prdPrecio = $request->prdPrecio;
+            $Producto->idMarca = $request->idMarca;
+            $Producto->idCategoria = $request->idCategoria;
+            $Producto->prdDescripcion = $request->prdDescripcion;
+            $Producto->prdImagen = $prdImagen;
+            $Producto->save();
+            return redirect('/productos')
+                ->with(
+                    [
+                        'mensaje'=>'Producto: '.$prdNombre.' modificado correctamente.',
+                        'css'=>'success'
+                    ]
+                );
+        }
+        catch ( Throwable $th ){
+            return redirect('/productos')
+                ->with(
+                    [
+                        'mensaje'=>'No se puedo modificar el roducto: '.$prdNombre,
+                        'css'=>'danger'
+                    ]
+                );
+        }
+
     }
 
     /**

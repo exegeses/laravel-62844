@@ -10,6 +10,7 @@ class Producto extends Model
     use HasFactory;
 
     public $timestamps = false;
+    protected $primaryKey = 'idProducto';
     /**
      * método para chekear si hay productos relacionados a una marca
      */
