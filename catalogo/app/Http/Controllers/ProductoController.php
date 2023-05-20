@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Marca;
 use App\Models\Categoria;
 use App\Models\Producto;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -70,13 +71,61 @@ class ProductoController extends Controller
         );
     }
 
+    private function subirImagen( Request $request ) : string
+    {
+        //si no enviaron una imagen
+        $prdImagen = 'noDisponible.png';
+
+        //si enviaron imagen
+        if( $request->file('prdImagen') ){
+            $archivo = $request->file('prdImagen');
+            //renombramos archivo
+            $extension = $archivo->getClientOriginalExtension();
+            $prdImagen = time().'.'.$extension;
+            //movemos archivo a directorio
+            $archivo->move( public_path('imagenes/productos/'), $prdImagen );
+        }
+
+        return $prdImagen;
+    }
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : RedirectResponse
     {
+        $prdNombre = $request->prdNombre;
         //validación
+        $this->validarForm($request);
+
         //subir imagen *
+        $prdImagen = $this->subirImagen( $request );
+        try {
+            $Producto = new Producto;
+            $Producto->prdNombre = $prdNombre;
+            $Producto->prdPrecio = $request->prdPrecio;
+            $Producto->idMarca = $request->idMarca;
+            $Producto->idCategoria = $request->idCategoria;
+            $Producto->prdDescripcion = $request->prdDescripcion;
+            $Producto->prdImagen = $prdImagen;
+            $Producto->save();
+            return redirect('/productos')
+                ->with(
+                    [
+                        'mensaje'=>'Producto: '.$prdNombre.' agregado correctamente.',
+                        'css'=>'success'
+                    ]
+                );
+        }
+        catch ( Throwable $th ){
+            return redirect('/productos')
+                ->with(
+                    [
+                        'mensaje'=>'No se puedo agregar el roducto: '.$prdNombre,
+                        'css'=>'danger'
+                    ]
+                );
+        }
 
     }
 

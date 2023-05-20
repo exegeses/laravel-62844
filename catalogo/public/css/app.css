@@ -87,6 +87,11 @@ main{
         font-weight: 500;
     }
 
+    textarea{
+        height: 96px;
+        resize: none;
+    }
+
 footer{
     position: fixed;
     bottom: 0px;

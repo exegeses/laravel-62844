@@ -9,6 +9,7 @@ class Producto extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     /**
      * método para chekear si hay productos relacionados a una marca
      */
