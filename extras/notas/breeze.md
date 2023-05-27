@@ -1,4 +1,4 @@
-# Instalaci´´on de Breeze
+# Instalación de Breeze
 
 ## Crear proyecto
 
