@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marca;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use function Termwind\render;
@@ -104,17 +105,65 @@ class MarcaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( Marca $marca ) : View
     {
-        //
+        /*
+        //obtenemos datos de una marca por su id
+        $Marca = Marca::find($id);
+        */
+
+        return view('marcaEdit',
+            [
+                'Marca'=>$marca
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update( Request $request ) : RedirectResponse
     {
-        //
+        //validación
+        $this->validarForm($request);
+
+        //capturamos dato enviado (para mensaje flash)
+        $mkNombre = $request->mkNombre;
+
+        try {
+            //obtenemos datos de una marca por su id
+            $Marca = Marca::find( $request->idMarca );
+            /*
+            //asignamos atributos
+            $Marca->mkNombre = $mkNombre;
+            //almacenamos dato
+            $Marca->save();
+            */
+            //mass assignment  | asignación masiva
+            $Marca->fill(
+                [
+                    'mkNombre'=>$mkNombre,
+                ]
+            );
+            $Marca->save();
+
+            return redirect('/marcas')
+                ->with(
+                    [
+                        'mensaje'=>'Marca: '.$mkNombre.' agregada correctamente',
+                        'css'=>'green'
+                    ]
+                );
+        }
+        catch ( Throwable $th ){
+            return redirect('/marcas')
+                ->with(
+                    [
+                        'mensaje'=>'No se pudo modificar la marca: '.$mkNombre,
+                        'css'=>'red'
+                    ]
+                );
+        }
     }
 
     /**

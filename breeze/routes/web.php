@@ -23,11 +23,23 @@ Route::get('/marca/create', [ MarcaController::class, 'create' ] )
         ->middleware(['auth']);
 Route::post('/marca/store', [ MarcaController::class, 'store' ])
         ->middleware(['auth']);
+Route::get('/marca/edit/{marca}', [ MarcaController::class, 'edit' ])
+        ->middleware(['auth']);
+Route::put('/marca/update', [ MarcaController::class, 'update' ])
+        ->middleware(['auth']);
 
+/*##################################
+##### CRUD de categorías
+*/
 Route::get('/categorias', function ()
 {
     return view('categorias');
 })->middleware(['auth'])->name('categorias');
+
+
+/*##################################
+##### CRUD de productos
+*/
 
 Route::get('/productos', function ()
 {
